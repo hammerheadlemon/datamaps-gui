@@ -8,11 +8,9 @@ import com.matthewlemon.datamaps.core.exceptions.DatamapNotFoundException;
 import com.matthewlemon.datamaps.core.exceptions.DuplicateDatamapException;
 import com.matthewlemon.datamaps.core.gateways.InMemoryDatamapGateway;
 import com.matthewlemon.datamaps.core.usecases.CreateableDatamapUseCase;
-import java.awt.HeadlessException;
 import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -32,7 +30,12 @@ public class Home extends javax.swing.JFrame {
 		String[] newDatamapColNames = {"Datamap", "Status"};
 		String[] datamapLineColNames = {"Key", "Sheet", "Cell Reference"};
 
-		datamapTableModel = new DefaultTableModel(newDatamapColNames, 0);
+		datamapTableModel = new DefaultTableModel(newDatamapColNames, 0) {
+			@Override
+			public boolean isCellEditable(int i, int i1) {
+				return false;
+			}
+		};
 		datamapLineTableModel = new DefaultTableModel(datamapLineColNames, 0);
 		initComponents();
 	}
@@ -60,9 +63,15 @@ public class Home extends javax.swing.JFrame {
         setBackground(new java.awt.Color(255, 204, 204));
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
-        datamapAdd.setBorder(javax.swing.BorderFactory.createTitledBorder("Add New Datamap"));
+        datamapAdd.setBorder(javax.swing.BorderFactory.createTitledBorder("Datamaps"));
 
         datamapTable.setModel(datamapTableModel);
+        datamapTable.setShowGrid(true);
+        datamapTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                datamapTableMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(datamapTable);
 
         addDatamapBtn.setText("Add");
@@ -118,7 +127,14 @@ public class Home extends javax.swing.JFrame {
 
         datamapData.setBorder(javax.swing.BorderFactory.createTitledBorder("Datamap Data"));
 
-        datamapLineTable.setModel(datamapLineTableModel);
+        datamapLineTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
         datamapLineTable.setName(""); // NOI18N
         jScrollPane2.setViewportView(datamapLineTable);
 
@@ -172,37 +188,40 @@ public class Home extends javax.swing.JFrame {
 			newDatamapDialog.setVisible(true);
 			String datamapName = newDatamapDialog.getGivenDatamapName();
 			File csvFile = newDatamapDialog.getChoosenFile();
-			System.out.println("GOT: " + datamapName);
-			System.out.println("GOT: " + csvFile.toString());
-
-//			String datamapName = JOptionPane.showInputDialog(rootPane, "Datamap name");
 			try {
 				datamap = useCase.createDatamap(datamapName);
 				String dmName = datamap.getName();
 				Object[] data = {dmName, "NA"};
 				datamapTableModel.addRow(data);
-			} catch (DuplicateDatamapException ex) {
-				Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
-			}
-			try {
 				useCase.addCSVDataToDatamap(datamapName, new CSVFile(csvFile));
-				System.out.println(useCase.getLineCountFromDatamap(datamapName));
-				// TODO - dies here....
-				for (DatamapLine line : useCase.getDatamap(datamapName).getDatamapLines()) {
-					String[] rowData = {line.getKey(), line.getSheetName(), line.getCellRef()};
-					System.out.println("Getting: " + line.getKey());
-					datamapLineTableModel.addRow(rowData);
-				} 
-			} catch (DatamapNotFoundException ex) {
+			} catch (DatamapNotFoundException | DuplicateDatamapException ex) {
 				Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
 			}
         }//GEN-LAST:event_addDatamapBtnMouseClicked
 
-	private int getMeansOfDatamapLineEntry(String datamapName) throws HeadlessException {
-		String[] options = {"Import from CSV", "Add manually"};
-		int choice = JOptionPane.showOptionDialog(rootPane, "How would you like to add data to the datamap?", "Populate Datamap", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, datamapName);
-		return choice;
-	}
+    private void datamapTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_datamapTableMouseClicked
+		int row = datamapTable.rowAtPoint(evt.getPoint());
+		int col = datamapTable.columnAtPoint(evt.getPoint());
+		String datamapName = (String) datamapTable.getValueAt(row, col);
+		if (datamapLineTableModel.getRowCount() > 0) {
+			for (int i = datamapLineTableModel.getRowCount() - 1; i>-1; i--) {
+				datamapLineTableModel.removeRow(i);
+			}
+		}
+		try {
+			Datamap datamap = useCase.getDatamap(datamapName);
+			for (DatamapLine line : useCase.getDatamap(datamapName).getDatamapLines()) {
+				String[] rowData = {line.getKey(), line.getSheetName(), line.getCellRef()};
+				System.out.println("Getting: " + line.getKey());
+				datamapLineTableModel.addRow(rowData);
+			}
+			datamapLineTable.setModel(datamapLineTableModel);
+
+		} catch (DatamapNotFoundException ex) {
+			Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+		}
+
+    }//GEN-LAST:event_datamapTableMouseClicked
 
 	/**
 	 * @param args the command line arguments
