@@ -3,6 +3,7 @@ package com.matthewlemon.datamaps.gui;
 import com.matthewlemon.datamaps.core.Context;
 import com.matthewlemon.datamaps.core.entities.CSVFile;
 import com.matthewlemon.datamaps.core.entities.Datamap;
+import com.matthewlemon.datamaps.core.entities.DatamapLine;
 import com.matthewlemon.datamaps.core.exceptions.DatamapNotFoundException;
 import com.matthewlemon.datamaps.core.exceptions.DuplicateDatamapException;
 import com.matthewlemon.datamaps.core.gateways.InMemoryDatamapGateway;
@@ -22,14 +23,17 @@ public class Home extends javax.swing.JFrame {
 
 	private final CreateableDatamapUseCase useCase;
 	private final DefaultTableModel datamapTableModel;
+	private final DefaultTableModel datamapLineTableModel;
 
 	public Home() {
 		Context.datamapGateway = new InMemoryDatamapGateway();
 		useCase = new CreateableDatamapUseCase();
 
-		String[] columnNames = {"Datamap", "Status"};
+		String[] newDatamapColNames = {"Datamap", "Status"};
+		String[] datamapLineColNames = {"Key", "Sheet", "Cell Reference"};
 
-		datamapTableModel = new DefaultTableModel(columnNames, 0);
+		datamapTableModel = new DefaultTableModel(newDatamapColNames, 0);
+		datamapLineTableModel = new DefaultTableModel(datamapLineColNames, 0);
 		initComponents();
 	}
 
@@ -114,17 +118,7 @@ public class Home extends javax.swing.JFrame {
 
         datamapData.setBorder(javax.swing.BorderFactory.createTitledBorder("Datamap Data"));
 
-        datamapLineTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
+        datamapLineTable.setModel(datamapLineTableModel);
         datamapLineTable.setName(""); // NOI18N
         jScrollPane2.setViewportView(datamapLineTable);
 
@@ -172,6 +166,7 @@ public class Home extends javax.swing.JFrame {
         private void addDatamapBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addDatamapBtnMouseClicked
 
 			CreateFromCSVDialog newDatamapDialog = new CreateFromCSVDialog(this, rootPaneCheckingEnabled);
+			Datamap datamap = null;
 			newDatamapDialog.setLocationRelativeTo(this);
 			newDatamapDialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 			newDatamapDialog.setVisible(true);
@@ -182,17 +177,22 @@ public class Home extends javax.swing.JFrame {
 
 //			String datamapName = JOptionPane.showInputDialog(rootPane, "Datamap name");
 			try {
-				Datamap datamap = useCase.createDatamap(datamapName);
+				datamap = useCase.createDatamap(datamapName);
 				String dmName = datamap.getName();
 				Object[] data = {dmName, "NA"};
 				datamapTableModel.addRow(data);
 			} catch (DuplicateDatamapException ex) {
 				Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
 			}
-			// TODO: Here is where we parse the CSV file using the use case
 			try {
 				useCase.addCSVDataToDatamap(datamapName, new CSVFile(csvFile));
 				System.out.println(useCase.getLineCountFromDatamap(datamapName));
+				// TODO - dies here....
+				for (DatamapLine line : useCase.getDatamap(datamapName).getDatamapLines()) {
+					String[] rowData = {line.getKey(), line.getSheetName(), line.getCellRef()};
+					System.out.println("Getting: " + line.getKey());
+					datamapLineTableModel.addRow(rowData);
+				} 
 			} catch (DatamapNotFoundException ex) {
 				Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
 			}
