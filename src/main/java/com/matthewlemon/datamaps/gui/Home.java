@@ -1,13 +1,9 @@
 package com.matthewlemon.datamaps.gui;
 
 import com.matthewlemon.datamaps.core.Context;
-import com.matthewlemon.datamaps.core.entities.Datamap;
-import com.matthewlemon.datamaps.core.exceptions.DuplicateDatamapException;
 import com.matthewlemon.datamaps.core.gateways.InMemoryDatamapGateway;
 import com.matthewlemon.datamaps.core.usecases.CreateableDatamapUseCase;
 import java.awt.HeadlessException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -24,7 +20,7 @@ public class Home extends javax.swing.JFrame {
 		Context.datamapGateway = new InMemoryDatamapGateway();
 		useCase = new CreateableDatamapUseCase();
 
-		String[] columnNames = {"Datamap", "Notes"};
+		String[] columnNames = {"Datamap", "Status"};
 
 		datamapTableModel = new DefaultTableModel(columnNames, 0);
 		initComponents();
@@ -46,7 +42,7 @@ public class Home extends javax.swing.JFrame {
         addDatamapBtn = new javax.swing.JButton();
         datamapData = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        datamapLineTable = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Datamaps - Home");
@@ -111,7 +107,7 @@ public class Home extends javax.swing.JFrame {
 
         datamapData.setBorder(javax.swing.BorderFactory.createTitledBorder("Datamap Data"));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        datamapLineTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -122,7 +118,7 @@ public class Home extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane2.setViewportView(jTable1);
+        jScrollPane2.setViewportView(datamapLineTable);
 
         javax.swing.GroupLayout datamapDataLayout = new javax.swing.GroupLayout(datamapData);
         datamapData.setLayout(datamapDataLayout);
@@ -166,25 +162,32 @@ public class Home extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
         private void addDatamapBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addDatamapBtnMouseClicked
-			String datamapName = JOptionPane.showInputDialog(rootPane, "Datamap name");
-			try {
-				Datamap datamap = useCase.createDatamap(datamapName);
-				String dmName = datamap.getName();
-				Object[] data = {dmName, "NA"};
-				datamapTableModel.addRow(data);
-			} catch (DuplicateDatamapException ex) {
-				Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
-			}
-			switch (getMeansOfDatamapLineEntry(datamapName)) {
-				case 0: 
-					System.out.println("You chose 0 which is CSV!");
-					ImportCSVToDatamap csvDialog = new ImportCSVToDatamap();
-					csvDialog.setVisible(true);
-					break;
-				case 1:
-					System.out.println("You chose 1 which is manual!");
-					break;
-			}
+			
+			AddNewDatamap newDatamapDialog = new AddNewDatamap(this, rootPaneCheckingEnabled);
+			newDatamapDialog.setLocationRelativeTo(this);
+			newDatamapDialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+			newDatamapDialog.show();
+			String datamapName = newDatamapDialog.getName();
+			
+//			String datamapName = JOptionPane.showInputDialog(rootPane, "Datamap name");
+//			try {
+//				Datamap datamap = useCase.createDatamap(datamapName);
+//				String dmName = datamap.getName();
+//				Object[] data = {dmName, "NA"};
+//				datamapTableModel.addRow(data);
+//			} catch (DuplicateDatamapException ex) {
+//				Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+//			}
+//			switch (getMeansOfDatamapLineEntry(datamapName)) {
+//				case 0: 
+//					System.out.println("You chose 0 which is CSV!");
+//					ImportCSVToDatamap csvDialog = new ImportCSVToDatamap();
+//					csvDialog.setVisible(true);
+//					break;
+//				case 1:
+//					System.out.println("You chose 1 which is manual!");
+//					break;
+//			}
         }//GEN-LAST:event_addDatamapBtnMouseClicked
 
 	private int getMeansOfDatamapLineEntry(String datamapName) throws HeadlessException {
@@ -233,10 +236,10 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JPanel buttonPanel;
     private javax.swing.JPanel datamapAdd;
     private javax.swing.JPanel datamapData;
+    private javax.swing.JTable datamapLineTable;
     private javax.swing.JTable datamapTable;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 
 }
