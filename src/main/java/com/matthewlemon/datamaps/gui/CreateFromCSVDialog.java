@@ -14,12 +14,23 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  *
  * @author lemon
  */
-public class AddNewDatamap extends javax.swing.JDialog {
+public class CreateFromCSVDialog extends javax.swing.JDialog {
+
+	private File choosenFile;
+
+	public File getChoosenFile() {
+		return choosenFile;
+	}
+
+	public String getGivenDatamapName() {
+		return givenDatamapName;
+	}
+	private String givenDatamapName;
 
 	/**
 	 * Creates new form AddNewDatamap
 	 */
-	public AddNewDatamap(java.awt.Frame parent, boolean modal) {
+	public CreateFromCSVDialog(java.awt.Frame parent, boolean modal) {
 		super(parent, modal);
 		initComponents();
 	}
@@ -35,10 +46,10 @@ public class AddNewDatamap extends javax.swing.JDialog {
 
         addDatamapPanel = new javax.swing.JPanel();
         givenDatamapNameLabel = new javax.swing.JLabel();
-        givenDatamapName = new javax.swing.JTextField();
+        givenDatamapNameField = new javax.swing.JTextField();
         selectCSVBtn = new javax.swing.JButton();
         selectedFile = new javax.swing.JLabel();
-        selectedPathText = new javax.swing.JLabel();
+        selectedPathTextLabel = new javax.swing.JLabel();
         okBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -80,8 +91,8 @@ public class AddNewDatamap extends javax.swing.JDialog {
                             .addComponent(selectedFile, javax.swing.GroupLayout.Alignment.TRAILING))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(addDatamapPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(givenDatamapName)
-                            .addComponent(selectedPathText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(givenDatamapNameField)
+                            .addComponent(selectedPathTextLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, addDatamapPanelLayout.createSequentialGroup()
                         .addGap(0, 331, Short.MAX_VALUE)
                         .addComponent(selectCSVBtn)
@@ -95,11 +106,11 @@ public class AddNewDatamap extends javax.swing.JDialog {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(addDatamapPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(givenDatamapNameLabel)
-                    .addComponent(givenDatamapName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(givenDatamapNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(addDatamapPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(selectedFile)
-                    .addComponent(selectedPathText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(selectedPathTextLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(addDatamapPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(selectCSVBtn)
@@ -128,22 +139,24 @@ public class AddNewDatamap extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void selectCSVBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectCSVBtnActionPerformed
-			if (givenDatamapName.getText().isBlank()) {
-				JOptionPane.showMessageDialog(this, "Please provide a datamap name", "Error: Please provide a name", JOptionPane.ERROR_MESSAGE);
+		if (givenDatamapNameField.getText().isBlank()) {
+			JOptionPane.showMessageDialog(this, "Please provide a datamap name", "Error: Please provide a name", JOptionPane.ERROR_MESSAGE);
 			return;
-			}
-			JFileChooser fileChooser = new JFileChooser();
-			FileNameExtensionFilter filter = new FileNameExtensionFilter("CSV files", "csv");
-			fileChooser.setFileFilter(filter);
-			int returnValue = fileChooser.showDialog(addDatamapPanel, "Select CSV File");
-			File choosenFile = fileChooser.getSelectedFile();
-			selectedPathText.setText(choosenFile.getAbsolutePath());
-			okBtn.setEnabled(true);
-			okBtn.requestFocus();
+		}
+		givenDatamapName = givenDatamapNameField.getText();
+		JFileChooser fileChooser = new JFileChooser();
+		FileNameExtensionFilter filter = new FileNameExtensionFilter("CSV files", "csv");
+		fileChooser.setFileFilter(filter);
+		int returnValue = fileChooser.showDialog(addDatamapPanel, "Select CSV File");
+		choosenFile = fileChooser.getSelectedFile();
+		selectedPathTextLabel.setText(choosenFile.getAbsolutePath());
+		okBtn.setEnabled(true);
+		okBtn.requestFocus();
     }//GEN-LAST:event_selectCSVBtnActionPerformed
 
+
     private void okBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okBtnActionPerformed
-        // TODO add your handling code here:
+		this.setVisible(false);
     }//GEN-LAST:event_okBtnActionPerformed
 
 	/**
@@ -163,20 +176,23 @@ public class AddNewDatamap extends javax.swing.JDialog {
 				}
 			}
 		} catch (ClassNotFoundException ex) {
-			java.util.logging.Logger.getLogger(AddNewDatamap.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+			java.util.logging.Logger.getLogger(CreateFromCSVDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 		} catch (InstantiationException ex) {
-			java.util.logging.Logger.getLogger(AddNewDatamap.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+			java.util.logging.Logger.getLogger(CreateFromCSVDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 		} catch (IllegalAccessException ex) {
-			java.util.logging.Logger.getLogger(AddNewDatamap.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+			java.util.logging.Logger.getLogger(CreateFromCSVDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 		} catch (javax.swing.UnsupportedLookAndFeelException ex) {
-			java.util.logging.Logger.getLogger(AddNewDatamap.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+			java.util.logging.Logger.getLogger(CreateFromCSVDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 		}
+		//</editor-fold>
+		//</editor-fold>
+		//</editor-fold>
 		//</editor-fold>
 
 		/* Create and display the dialog */
 		java.awt.EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				AddNewDatamap dialog = new AddNewDatamap(new javax.swing.JFrame(), true);
+				CreateFromCSVDialog dialog = new CreateFromCSVDialog(new javax.swing.JFrame(), true);
 				dialog.addWindowListener(new java.awt.event.WindowAdapter() {
 					@Override
 					public void windowClosing(java.awt.event.WindowEvent e) {
@@ -188,13 +204,14 @@ public class AddNewDatamap extends javax.swing.JDialog {
 		});
 	}
 
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel addDatamapPanel;
-    private javax.swing.JTextField givenDatamapName;
+    private javax.swing.JTextField givenDatamapNameField;
     private javax.swing.JLabel givenDatamapNameLabel;
     private javax.swing.JButton okBtn;
     private javax.swing.JButton selectCSVBtn;
     private javax.swing.JLabel selectedFile;
-    private javax.swing.JLabel selectedPathText;
+    private javax.swing.JLabel selectedPathTextLabel;
     // End of variables declaration//GEN-END:variables
 }
