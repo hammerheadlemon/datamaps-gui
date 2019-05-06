@@ -118,6 +118,7 @@ public class Home extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        datamapLineTable.setName(""); // NOI18N
         jScrollPane2.setViewportView(datamapLineTable);
 
         javax.swing.GroupLayout datamapDataLayout = new javax.swing.GroupLayout(datamapData);
@@ -226,7 +227,9 @@ public class Home extends javax.swing.JFrame {
 		/* Create and display the form */
 		java.awt.EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				new Home().setVisible(true);
+				Home home = new Home();
+				home.setLocationRelativeTo(null);
+				home.setVisible(true);
 			}
 		});
 	}
