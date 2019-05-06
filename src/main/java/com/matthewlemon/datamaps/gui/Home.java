@@ -1,7 +1,9 @@
 package com.matthewlemon.datamaps.gui;
 
 import com.matthewlemon.datamaps.core.Context;
+import com.matthewlemon.datamaps.core.entities.CSVFile;
 import com.matthewlemon.datamaps.core.entities.Datamap;
+import com.matthewlemon.datamaps.core.exceptions.DatamapNotFoundException;
 import com.matthewlemon.datamaps.core.exceptions.DuplicateDatamapException;
 import com.matthewlemon.datamaps.core.gateways.InMemoryDatamapGateway;
 import com.matthewlemon.datamaps.core.usecases.CreateableDatamapUseCase;
@@ -168,7 +170,7 @@ public class Home extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
         private void addDatamapBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addDatamapBtnMouseClicked
-			
+
 			CreateFromCSVDialog newDatamapDialog = new CreateFromCSVDialog(this, rootPaneCheckingEnabled);
 			newDatamapDialog.setLocationRelativeTo(this);
 			newDatamapDialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -177,7 +179,7 @@ public class Home extends javax.swing.JFrame {
 			File csvFile = newDatamapDialog.getChoosenFile();
 			System.out.println("GOT: " + datamapName);
 			System.out.println("GOT: " + csvFile.toString());
-			
+
 //			String datamapName = JOptionPane.showInputDialog(rootPane, "Datamap name");
 			try {
 				Datamap datamap = useCase.createDatamap(datamapName);
@@ -187,16 +189,13 @@ public class Home extends javax.swing.JFrame {
 			} catch (DuplicateDatamapException ex) {
 				Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
 			}
-//			switch (getMeansOfDatamapLineEntry(datamapName)) {
-//				case 0: 
-//					System.out.println("You chose 0 which is CSV!");
-//					ImportCSVToDatamap csvDialog = new ImportCSVToDatamap();
-//					csvDialog.setVisible(true);
-//					break;
-//				case 1:
-//					System.out.println("You chose 1 which is manual!");
-//					break;
-//			}
+			// TODO: Here is where we parse the CSV file using the use case
+			try {
+				useCase.addCSVDataToDatamap(datamapName, new CSVFile(csvFile));
+				System.out.println(useCase.getLineCountFromDatamap(datamapName));
+			} catch (DatamapNotFoundException ex) {
+				Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+			}
         }//GEN-LAST:event_addDatamapBtnMouseClicked
 
 	private int getMeansOfDatamapLineEntry(String datamapName) throws HeadlessException {
