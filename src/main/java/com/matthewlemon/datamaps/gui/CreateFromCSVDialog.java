@@ -43,23 +43,52 @@ public class CreateFromCSVDialog extends javax.swing.JDialog {
 	@SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
         addDatamapPanel = new javax.swing.JPanel();
         givenDatamapNameLabel = new javax.swing.JLabel();
-        givenDatamapNameField = new javax.swing.JTextField();
-        selectCSVBtn = new javax.swing.JButton();
-        selectedFile = new javax.swing.JLabel();
         selectedPathTextLabel = new javax.swing.JLabel();
+        selectedFile = new javax.swing.JLabel();
+        selectCSVBtn = new javax.swing.JButton();
         okBtn = new javax.swing.JButton();
+        givenDatamapNameField = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Create Datamap from CSV");
         setName(""); // NOI18N
+        getContentPane().setLayout(new java.awt.GridLayout());
 
         addDatamapPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Datamap Details"));
         addDatamapPanel.setName("Add New Datamap"); // NOI18N
+        java.awt.GridBagLayout addDatamapPanelLayout = new java.awt.GridBagLayout();
+        addDatamapPanelLayout.columnWidths = new int[] {0, 6, 0, 6, 0, 6, 0, 6, 0, 6, 0, 6, 0};
+        addDatamapPanelLayout.rowHeights = new int[] {0, 5, 0, 5, 0};
+        addDatamapPanel.setLayout(addDatamapPanelLayout);
 
         givenDatamapNameLabel.setText("Name:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        addDatamapPanel.add(givenDatamapNameLabel, gridBagConstraints);
+
+        selectedPathTextLabel.setText("GIVEN NAME");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        addDatamapPanel.add(selectedPathTextLabel, gridBagConstraints);
+
+        selectedFile.setText("Selected File:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 3;
+        addDatamapPanel.add(selectedFile, gridBagConstraints);
 
         selectCSVBtn.setText("Select CSV");
         selectCSVBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -67,8 +96,12 @@ public class CreateFromCSVDialog extends javax.swing.JDialog {
                 selectCSVBtnActionPerformed(evt);
             }
         });
-
-        selectedFile.setText("Selected File:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 10;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        addDatamapPanel.add(selectCSVBtn, gridBagConstraints);
 
         okBtn.setText("OK");
         okBtn.setEnabled(false);
@@ -77,63 +110,23 @@ public class CreateFromCSVDialog extends javax.swing.JDialog {
                 okBtnActionPerformed(evt);
             }
         });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 12;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        addDatamapPanel.add(okBtn, gridBagConstraints);
 
-        javax.swing.GroupLayout addDatamapPanelLayout = new javax.swing.GroupLayout(addDatamapPanel);
-        addDatamapPanel.setLayout(addDatamapPanelLayout);
-        addDatamapPanelLayout.setHorizontalGroup(
-            addDatamapPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(addDatamapPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(addDatamapPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(addDatamapPanelLayout.createSequentialGroup()
-                        .addGroup(addDatamapPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(givenDatamapNameLabel, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(selectedFile, javax.swing.GroupLayout.Alignment.TRAILING))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(addDatamapPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(givenDatamapNameField)
-                            .addComponent(selectedPathTextLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, addDatamapPanelLayout.createSequentialGroup()
-                        .addGap(0, 331, Short.MAX_VALUE)
-                        .addComponent(selectCSVBtn)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(okBtn)))
-                .addContainerGap())
-        );
-        addDatamapPanelLayout.setVerticalGroup(
-            addDatamapPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(addDatamapPanelLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(addDatamapPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(givenDatamapNameLabel)
-                    .addComponent(givenDatamapNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(addDatamapPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(selectedFile)
-                    .addComponent(selectedPathTextLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(addDatamapPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(selectCSVBtn)
-                    .addComponent(okBtn))
-                .addGap(13, 13, 13))
-        );
+        givenDatamapNameField.setColumns(4);
+        givenDatamapNameField.setPreferredSize(null);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        addDatamapPanel.add(givenDatamapNameField, gridBagConstraints);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(addDatamapPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(addDatamapPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        getContentPane().add(addDatamapPanel);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
