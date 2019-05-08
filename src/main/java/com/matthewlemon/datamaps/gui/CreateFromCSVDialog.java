@@ -55,8 +55,9 @@ public class CreateFromCSVDialog extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Create Datamap from CSV");
+        setModal(true);
         setName(""); // NOI18N
-        getContentPane().setLayout(new java.awt.GridLayout());
+        getContentPane().setLayout(new java.awt.FlowLayout());
 
         addDatamapPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Datamap Details"));
         addDatamapPanel.setName("Add New Datamap"); // NOI18N
@@ -73,8 +74,6 @@ public class CreateFromCSVDialog extends javax.swing.JDialog {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         addDatamapPanel.add(givenDatamapNameLabel, gridBagConstraints);
-
-        selectedPathTextLabel.setText("GIVEN NAME");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 2;
@@ -99,7 +98,6 @@ public class CreateFromCSVDialog extends javax.swing.JDialog {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 10;
         gridBagConstraints.gridy = 4;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         addDatamapPanel.add(selectCSVBtn, gridBagConstraints);
 
