@@ -141,6 +141,7 @@ public class CreateFromCSVDialog extends javax.swing.JDialog {
 		int returnValue = fileChooser.showDialog(addDatamapPanel, "Select CSV File");
 		choosenFile = fileChooser.getSelectedFile();
 		selectedPathTextLabel.setText(choosenFile.getAbsolutePath());
+		this.pack();
 		okBtn.setEnabled(true);
 		okBtn.requestFocus();
     }//GEN-LAST:event_selectCSVBtnActionPerformed
