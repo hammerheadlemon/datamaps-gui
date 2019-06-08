@@ -11,6 +11,8 @@ import com.matthewlemon.datamaps.core.usecases.CreateableDatamapUseCase;
 import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -22,6 +24,7 @@ public class Home extends javax.swing.JFrame {
 	private final CreateableDatamapUseCase useCase;
 	private final DefaultTableModel datamapTableModel;
 	private final DefaultTableModel datamapLineTableModel;
+	private File[] chosenFiles;
 
 	public Home() {
 		Context.datamapGateway = new InMemoryDatamapGateway();
@@ -57,6 +60,7 @@ public class Home extends javax.swing.JFrame {
         datamapLineTable = new javax.swing.JTable();
         buttonPanel = new javax.swing.JPanel();
         addDatamapBtn = new javax.swing.JButton();
+        importTemplatesBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Datamaps - Home");
@@ -133,12 +137,22 @@ public class Home extends javax.swing.JFrame {
             }
         });
 
+        importTemplatesBtn.setText("Import Templates");
+        importTemplatesBtn.setEnabled(false);
+        importTemplatesBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                importTemplatesBtnMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout buttonPanelLayout = new javax.swing.GroupLayout(buttonPanel);
         buttonPanel.setLayout(buttonPanelLayout);
         buttonPanelLayout.setHorizontalGroup(
             buttonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(buttonPanelLayout.createSequentialGroup()
-                .addContainerGap(849, Short.MAX_VALUE)
+                .addContainerGap()
+                .addComponent(importTemplatesBtn)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 682, Short.MAX_VALUE)
                 .addComponent(addDatamapBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -146,7 +160,9 @@ public class Home extends javax.swing.JFrame {
             buttonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(buttonPanelLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(addDatamapBtn)
+                .addGroup(buttonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(addDatamapBtn)
+                    .addComponent(importTemplatesBtn))
                 .addContainerGap())
         );
 
@@ -179,6 +195,7 @@ public class Home extends javax.swing.JFrame {
 		int row = datamapTable.rowAtPoint(evt.getPoint());
 		int col = datamapTable.columnAtPoint(evt.getPoint());
 		String datamapName = (String) datamapTable.getValueAt(row, col);
+		importTemplatesBtn.setEnabled(true);
 		if (datamapLineTableModel.getRowCount() > 0) {
 			for (int i = datamapLineTableModel.getRowCount() - 1; i>-1; i--) {
 				datamapLineTableModel.removeRow(i);
@@ -198,6 +215,18 @@ public class Home extends javax.swing.JFrame {
 		}
 
     }//GEN-LAST:event_datamapTableMouseClicked
+
+    private void importTemplatesBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_importTemplatesBtnMouseClicked
+		final JFileChooser importTemplateDialog = new JFileChooser();
+		importTemplateDialog.setMultiSelectionEnabled(true);
+		FileNameExtensionFilter filter = new FileNameExtensionFilter("XLSX files", "xlsx");
+		importTemplateDialog.setFileFilter(filter);
+		int returnValue = importTemplateDialog.showDialog(datamapAdd, "Select XLSX files");
+		this.chosenFiles = importTemplateDialog.getSelectedFiles();
+		for (File f : this.chosenFiles) {
+			System.out.println(f.getAbsolutePath());	
+		}
+    }//GEN-LAST:event_importTemplatesBtnMouseClicked
 
 	/**
 	 * @param args the command line arguments
@@ -243,6 +272,7 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JPanel datamapData;
     private javax.swing.JTable datamapLineTable;
     private javax.swing.JTable datamapTable;
+    private javax.swing.JButton importTemplatesBtn;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     // End of variables declaration//GEN-END:variables
