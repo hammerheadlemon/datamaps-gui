@@ -221,7 +221,7 @@ public class Home extends javax.swing.JFrame {
 		importTemplateDialog.setMultiSelectionEnabled(true);
 		FileNameExtensionFilter filter = new FileNameExtensionFilter("XLSX files", "xlsx");
 		importTemplateDialog.setFileFilter(filter);
-		int returnValue = importTemplateDialog.showDialog(datamapAdd, "Select XLSX files");
+		int returnValue = importTemplateDialog.showDialog(datamapTable, "Select XLSX files");
 		this.chosenFiles = importTemplateDialog.getSelectedFiles();
 		for (File f : this.chosenFiles) {
 			System.out.println(f.getAbsolutePath());	
