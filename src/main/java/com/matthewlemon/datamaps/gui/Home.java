@@ -58,6 +58,7 @@ public class Home extends javax.swing.JFrame {
         datamapData = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         datamapLineTable = new javax.swing.JTable();
+        importedDataPane = new javax.swing.JTabbedPane();
         buttonPanel = new javax.swing.JPanel();
         addDatamapBtn = new javax.swing.JButton();
         importTemplatesBtn = new javax.swing.JButton();
@@ -117,7 +118,9 @@ public class Home extends javax.swing.JFrame {
             datamapDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(datamapDataLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 920, Short.MAX_VALUE)
+                .addGroup(datamapDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 920, Short.MAX_VALUE)
+                    .addComponent(importedDataPane))
                 .addContainerGap())
         );
         datamapDataLayout.setVerticalGroup(
@@ -125,7 +128,8 @@ public class Home extends javax.swing.JFrame {
             .addGroup(datamapDataLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(importedDataPane, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         getContentPane().add(datamapData);
@@ -273,6 +277,7 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JTable datamapLineTable;
     private javax.swing.JTable datamapTable;
     private javax.swing.JButton importTemplatesBtn;
+    private javax.swing.JTabbedPane importedDataPane;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     // End of variables declaration//GEN-END:variables
